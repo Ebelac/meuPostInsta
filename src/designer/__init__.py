@@ -1,3 +1,3 @@
-from .carousel_generator import CarouselGenerator
+from .professional_carousel import ProfessionalCarouselGenerator
 
-__all__ = ["CarouselGenerator"]
+__all__ = ["ProfessionalCarouselGenerator"]
