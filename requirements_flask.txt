@@ -1,0 +1,15 @@
+# Flask Web Application Dependencies
+Flask==2.3.2
+Werkzeug==2.3.6
+
+# Image Processing
+Pillow==10.0.0
+
+# HTTP Requests
+requests==2.31.0
+
+# Claude API Integration
+anthropic==0.25.1
+
+# Existing dependencies from the carousel generator
+# (Add any other dependencies your carousel generator needs)

@@ -1,0 +1,27 @@
+{
+  "tom": "jornalistico",
+  "nivel_escrita": "medio",
+  "fonte_imagens": "pergunta",
+  "_docs": {
+    "tom": [
+      "alarmista        — frases curtas, urgência, 'ATENÇÃO', 'NUNCA imagine', tom chocante",
+      "jornalistico     — objetivo, factual, 'Segundo dados...', neutro, fontes",
+      "didatico         — explicativo, 'Vamos entender...', passo-a-passo, paciente",
+      "descontraido     — coloquial, gírias jovens, leve, divertido, casual",
+      "inspiracional    — motivacional, 'Você pode...', encorajador, emocional",
+      "tecnico          — jargão preservado, dados específicos, terminologia formal",
+      "ironico          — provocativo, sarcástico, crítica social, humor seco"
+    ],
+    "nivel_escrita": [
+      "simples          — adolescentes / leitura básica: frases curtas, vocabulário cotidiano, zero jargão, analogias do dia-a-dia",
+      "medio            — público geral: vocabulário corrente, termos técnicos explicados, frases médias, exemplos próximos",
+      "culto            — leitor experiente: vocabulário rico, conceitos avançados sem traduzir, referências eruditas, frases longas"
+    ],
+    "fonte_imagens": [
+      "auto             — skill busca sozinha em Pexels/Unsplash a partir do tema",
+      "pasta            — usuário coloca em assets/custom_images/ com nome '1.png', '2.png', ... '9.png' (número = slide)",
+      "links            — usuário cola URLs no chat, indicando o slide ('slide 3: https://...')",
+      "pergunta         — a skill pergunta a cada execução qual das três opções acima usar"
+    ]
+  }
+}

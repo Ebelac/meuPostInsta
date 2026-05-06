@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="content-card p-4 mb-4">
+            <h1>
+                <i class="fas fa-brain text-success"></i>
+                Gerador Inteligente de Conteúdo
+            </h1>
+            <p class="text-muted">
+                <strong>🧠 NOVO:</strong> Agora com pesquisa de mercado e dados reais!
+                Envie seu tema e receba conteúdo baseado em estatísticas atuais.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="content-card p-5">
+
+            <!-- Formulário Principal -->
+            <form method="POST" id="contentForm">
+                <div class="mb-4">
+                    <h4><i class="fas fa-edit text-primary"></i> Seu Tema</h4>
+                    <div class="mb-3">
+                        <label for="theme" class="form-label">
+                            <i class="fas fa-lightbulb"></i> Digite o tema/assunto para o carrossel
+                        </label>
+                        <input type="text"
+                               class="form-control form-control-lg"
+                               name="theme"
+                               id="theme"
+                               placeholder="Ex: Inteligência Artificial no Brasil, Marketing Digital 2024, Criptomoedas..."
+                               required>
+                        <div class="form-text">
+                            <i class="fas fa-info-circle"></i>
+                            Quanto mais específico, melhor será o resultado
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Opções Avançadas -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h6 class="mb-0">
+                            <i class="fas fa-cog"></i> Opções Avançadas
+                            <button type="button" class="btn btn-link btn-sm float-end" onclick="toggleAdvanced()">
+                                <i class="fas fa-chevron-down" id="advancedIcon"></i>
+                            </button>
+                        </h6>
+                    </div>
+                    <div class="card-body" id="advancedOptions" style="display: none;">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label">Tipo de Conteúdo</label>
+                                <select class="form-select" name="content_type">
+                                    <option value="educativo" selected>📚 Educativo</option>
+                                    <option value="inspiracional">✨ Inspiracional</option>
+                                    <option value="vendas">💰 Vendas/Marketing</option>
+                                    <option value="tendencias">📈 Tendências</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Tom da Comunicação</label>
+                                <select class="form-select" name="tone">
+                                    <option value="profissional" selected>👔 Profissional</option>
+                                    <option value="casual">😊 Casual</option>
+                                    <option value="urgente">🚨 Urgente</option>
+                                    <option value="motivacional">🚀 Motivacional</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exemplos -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h6 class="mb-0">
+                            <i class="fas fa-examples text-success"></i> Exemplos de Temas
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>🔥 Tecnologia</h6>
+                                <ul class="list-unstyled small">
+                                    <li>• Inteligência Artificial no Brasil</li>
+                                    <li>• Blockchain além das criptos</li>
+                                    <li>• Futuro do trabalho remoto</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>💼 Negócios</h6>
+                                <ul class="list-unstyled small">
+                                    <li>• Marketing Digital 2024</li>
+                                    <li>• Startups unicórnio brasileiras</li>
+                                    <li>• E-commerce pós pandemia</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-outline-primary btn-sm" onclick="useExample('Inteligência Artificial transformando empresas brasileiras')">
+                            <i class="fas fa-copy"></i> Usar exemplo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Botão de Geração -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success btn-lg px-5" id="generateBtn">
+                        <i class="fas fa-brain"></i>
+                        <span id="btnText">Gerar Conteúdo Inteligente</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Loading Progress -->
+            <div id="loadingSection" class="text-center mt-4" style="display: none;">
+                <div class="spinner-border text-primary mb-3" role="status">
+                    <span class="visually-hidden">Gerando...</span>
+                </div>
+                <p class="text-muted mb-2">🔍 Pesquisando dados de mercado...</p>
+                <p class="text-muted mb-2">📊 Analisando estatísticas atuais...</p>
+                <p class="text-muted mb-2">🧠 Extraindo insights relevantes...</p>
+                <p class="text-muted mb-2">🎨 Criando carrossel baseado em dados...</p>
+                <p class="text-muted">📝 Gerando conteúdo inteligente...</p>
+
+                <div class="progress mt-3">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated"
+                         role="progressbar"
+                         style="width: 100%"></div>
+                </div>
+
+                <div class="alert alert-success mt-3">
+                    <i class="fas fa-brain"></i>
+                    <strong>Inteligência em ação:</strong> Pesquisando mercado, analisando dados e gerando conteúdo baseado em informações reais. Pode levar 2-3 minutos.
+                </div>
+            </div>
+
+            <!-- O que será gerado -->
+            <div class="mt-5">
+                <h5><i class="fas fa-gift text-warning"></i> O que você vai receber:</h5>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-newspaper text-primary me-2"></i>
+                            <span><strong>Manchete impactante</strong> - Hook que prende atenção</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-images text-success me-2"></i>
+                            <span><strong>Carrossel completo</strong> - 9 slides profissionais</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-file-alt text-info me-2"></i>
+                            <span><strong>Descrição do post</strong> - Texto para legenda</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-hashtag text-warning me-2"></i>
+                            <span><strong>Hashtags estratégicas</strong> - Alcance maximizado</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-clock text-danger me-2"></i>
+                            <span><strong>Melhor horário</strong> - Quando postar</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-tips text-purple me-2"></i>
+                            <span><strong>Dicas de performance</strong> - Maximizar engajamento</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function toggleAdvanced() {
+    const options = document.getElementById('advancedOptions');
+    const icon = document.getElementById('advancedIcon');
+
+    if (options.style.display === 'none') {
+        options.style.display = 'block';
+        icon.className = 'fas fa-chevron-up';
+    } else {
+        options.style.display = 'none';
+        icon.className = 'fas fa-chevron-down';
+    }
+}
+
+function useExample(example) {
+    document.getElementById('theme').value = example;
+    document.getElementById('theme').focus();
+}
+
+document.getElementById('contentForm').addEventListener('submit', function(e) {
+    const theme = document.getElementById('theme').value.trim();
+
+    if (theme.length < 5) {
+        alert('Por favor, digite um tema mais detalhado (mínimo 5 caracteres)');
+        e.preventDefault();
+        return;
+    }
+
+    // Mostrar loading
+    document.getElementById('generateBtn').disabled = true;
+    document.getElementById('btnText').textContent = 'Gerando...';
+    document.getElementById('loadingSection').style.display = 'block';
+
+    // Scroll para loading
+    document.getElementById('loadingSection').scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+    });
+});
+
+// Auto-focus no campo tema
+document.getElementById('theme').focus();
+</script>
+
+<style>
+.text-purple {
+    color: #6f42c1 !important;
+}
+
+.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.card-header h6 {
+    margin-bottom: 0;
+}
+
+.btn-link {
+    text-decoration: none;
+    padding: 0;
+}
+
+.list-unstyled li {
+    margin-bottom: 0.25rem;
+}
+
+.alert-info {
+    background-color: #e3f2fd;
+    border-color: #bbdefb;
+    color: #0277bd;
+}
+</style>
+{% endblock %}

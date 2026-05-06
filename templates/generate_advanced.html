@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="content-card p-4 mb-4">
+            <h1>
+                <i class="fas fa-magic text-primary"></i>
+                Gerador Avançado de Carrosséis
+            </h1>
+            <p class="text-muted">Crie carrosséis personalizados com IA ou use templates prontos</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="content-card p-5">
+
+            <!-- Método de Geração -->
+            <div class="mb-4">
+                <h4><i class="fas fa-cog text-primary"></i> Método de Geração</h4>
+                <div class="row">
+                    {% if claude_available %}
+                    <div class="col-md-6 mb-3">
+                        <div class="card method-card" data-method="claude">
+                            <div class="card-body text-center">
+                                <i class="fas fa-robot fa-3x text-success mb-3"></i>
+                                <h5>🤖 Claude AI</h5>
+                                <p class="text-muted">Gera conteúdo personalizado com IA</p>
+                                <div class="badge bg-success">Recomendado</div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="col-md-6 mb-3">
+                        <div class="card method-card" data-method="original">
+                            <div class="card-body text-center">
+                                <i class="fas fa-templates fa-3x text-primary mb-3"></i>
+                                <h5>📋 Template Fixo</h5>
+                                <p class="text-muted">Carrossel sobre criptografia quântica</p>
+                                <div class="badge bg-primary">Pronto</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulário -->
+            <form method="POST" id="generateForm">
+                <input type="hidden" name="method" id="methodInput" value="{% if claude_available %}claude{% else %}original{% endif %}">
+
+                <!-- Configurações Claude -->
+                {% if claude_available %}
+                <div id="claudeOptions" class="mb-4">
+                    <h5><i class="fas fa-edit text-success"></i> Configurações de Conteúdo</h5>
+
+                    <div class="mb-3">
+                        <label for="topic" class="form-label">
+                            <i class="fas fa-lightbulb"></i> Tópico do Carrossel
+                        </label>
+                        <input type="text"
+                               class="form-control form-control-lg"
+                               name="topic"
+                               id="topic"
+                               placeholder="Ex: Inteligência Artificial no Brasil, NFTs em 2024, etc."
+                               value="Criptografia Quântica e Impactos na Segurança Digital">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">
+                                <i class="fas fa-layer-group"></i> Número de Slides
+                            </label>
+                            <select class="form-select" name="slides_count">
+                                <option value="9" selected>9 slides (recomendado)</option>
+                                <option value="8">8 slides</option>
+                                <option value="7">7 slides</option>
+                                <option value="6">6 slides</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">
+                                <i class="fas fa-users"></i> Tom do Conteúdo
+                            </label>
+                            <select class="form-select" name="tone">
+                                <option value="educativo" selected>Educativo</option>
+                                <option value="vendas">Vendas/Marketing</option>
+                                <option value="inspiracional">Inspiracional</option>
+                                <option value="tecnico">Técnico</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Preview do Template Original -->
+                <div id="originalPreview" class="mb-4" {% if claude_available %}style="display: none;"{% endif %}>
+                    <h5><i class="fas fa-eye text-primary"></i> Preview do Template</h5>
+                    <div class="card">
+                        <div class="card-body">
+                            <h6>🚨 Criptografia em Risco: Era Quântica</h6>
+                            <p class="text-muted mb-2">9 slides sobre:</p>
+                            <ul class="list-unstyled">
+                                <li>• Hook - Revolução em curso</li>
+                                <li>• Computação quântica explicada</li>
+                                <li>• Velocidade 100M x superior</li>
+                                <li>• Bitcoin e criptos em risco</li>
+                                <li>• Mercado de US$ 1,3 trilhão</li>
+                                <li>• Timeline crítica 2029</li>
+                                <li>• Soluções pós-quânticas</li>
+                                <li>• Como se preparar</li>
+                                <li>• CTA para compartilhamento</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botão de Geração -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-lg px-5" id="generateBtn">
+                        <i class="fas fa-magic"></i>
+                        <span id="btnText">Gerar Carrossel</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Loading Progress -->
+            <div id="loadingSection" class="text-center mt-4" style="display: none;">
+                <div class="spinner-border text-primary mb-3" role="status">
+                    <span class="visually-hidden">Gerando...</span>
+                </div>
+                <p class="text-muted">Gerando carrossel... Isso pode levar alguns minutos.</p>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated"
+                         role="progressbar"
+                         style="width: 100%"></div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <small class="text-muted">
+                    <i class="fas fa-info-circle"></i>
+                    {% if claude_available %}
+                    Claude AI gera conteúdo personalizado e único para cada carrossel
+                    {% else %}
+                    Para usar IA, configure sua API key do Claude no arquivo .env.flask
+                    {% endif %}
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Seleção de método
+document.querySelectorAll('.method-card').forEach(card => {
+    card.addEventListener('click', function() {
+        // Remove seleção anterior
+        document.querySelectorAll('.method-card').forEach(c => c.classList.remove('selected'));
+
+        // Adiciona seleção
+        this.classList.add('selected');
+
+        const method = this.dataset.method;
+        document.getElementById('methodInput').value = method;
+
+        // Mostra/esconde opções
+        const claudeOptions = document.getElementById('claudeOptions');
+        const originalPreview = document.getElementById('originalPreview');
+
+        if (method === 'claude') {
+            if (claudeOptions) claudeOptions.style.display = 'block';
+            if (originalPreview) originalPreview.style.display = 'none';
+        } else {
+            if (claudeOptions) claudeOptions.style.display = 'none';
+            if (originalPreview) originalPreview.style.display = 'block';
+        }
+    });
+});
+
+// Selecionar método padrão
+{% if claude_available %}
+document.querySelector('[data-method="claude"]').classList.add('selected');
+{% else %}
+document.querySelector('[data-method="original"]').classList.add('selected');
+{% endif %}
+
+// Submit form
+document.getElementById('generateForm').addEventListener('submit', function(e) {
+    // Mostrar loading
+    document.getElementById('generateBtn').disabled = true;
+    document.getElementById('btnText').textContent = 'Gerando...';
+    document.getElementById('loadingSection').style.display = 'block';
+});
+</script>
+
+<style>
+.method-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.method-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.method-card.selected {
+    border-color: #0d6efd;
+    box-shadow: 0 4px 12px rgba(13,110,253,0.25);
+}
+</style>
+{% endblock %}

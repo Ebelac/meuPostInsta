@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="content-card p-4 mb-4">
+            <h1>
+                <i class="fas fa-magic text-primary"></i>
+                Gerar Novo Carrossel
+            </h1>
+            <p class="text-muted">Crie carrosséis profissionais no padrão CalebeDigital</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="content-card p-5">
+            <div class="text-center mb-4">
+                <i class="fas fa-images fa-4x text-primary mb-3"></i>
+                <h3>Carrossel: Criptografia Quântica</h3>
+                <p class="text-muted">9 slides profissionais sobre o futuro da criptografia</p>
+            </div>
+
+            <!-- Estrutura do Carrossel -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-list"></i> Estrutura do Carrossel
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-play text-primary"></i>
+                                    <strong>Slide 1:</strong> Hook - Revolução em curso
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-atom text-info"></i>
+                                    <strong>Slide 2:</strong> Computação quântica
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-tachometer-alt text-warning"></i>
+                                    <strong>Slide 3:</strong> Velocidade 100M x
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fab fa-bitcoin text-warning"></i>
+                                    <strong>Slide 4:</strong> Bitcoin em questão
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-dollar-sign text-success"></i>
+                                    <strong>Slide 5:</strong> US$ 1,3 trilhão
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-clock text-danger"></i>
+                                    <strong>Slide 6:</strong> Timeline 2029
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-shield-alt text-success"></i>
+                                    <strong>Slide 7:</strong> Soluções pós-quânticas
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-rocket text-primary"></i>
+                                    <strong>Slide 8:</strong> Como se preparar
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-share-alt text-info"></i>
+                                    <strong>Slide 9:</strong> CTA Compartilhamento
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Especificações Técnicas -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-cog"></i> Especificações
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Formato:</strong> 1080x1440px</p>
+                            <p><strong>Slides:</strong> 9 no total</p>
+                            <p><strong>Estilo:</strong> Tiago Guitián</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Tipografia:</strong> Helvetica Neue</p>
+                            <p><strong>Perfil:</strong> @seuhandle ✓</p>
+                            <p><strong>Imagens:</strong> Temáticas específicas</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botão de Geração -->
+            <form method="POST" id="generateForm">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-lg px-5" id="generateBtn">
+                        <i class="fas fa-magic"></i>
+                        <span id="btnText">Gerar Carrossel</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Loading Progress -->
+            <div id="loadingSection" class="text-center mt-4" style="display: none;">
+                <div class="spinner-border text-primary mb-3" role="status">
+                    <span class="visually-hidden">Gerando...</span>
+                </div>
+                <p class="text-muted">Gerando carrossel... Isso pode levar alguns minutos.</p>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated"
+                         role="progressbar"
+                         style="width: 100%"></div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <small class="text-muted">
+                    <i class="fas fa-info-circle"></i>
+                    A geração inclui download de imagens temáticas e processamento de alta qualidade
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('generateForm').addEventListener('submit', function(e) {
+    // Mostrar loading
+    document.getElementById('generateBtn').disabled = true;
+    document.getElementById('btnText').textContent = 'Gerando...';
+    document.getElementById('loadingSection').style.display = 'block';
+});
+</script>
+{% endblock %}

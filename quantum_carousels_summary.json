@@ -1,0 +1,112 @@
+{
+  "generated_at": "2026-04-02T09:07:56.694532",
+  "topic": "Criptografia Quântica vs Blockchain",
+  "total_carousels": 8,
+  "total_slides": 40,
+  "carousels": [
+    {
+      "id": 1,
+      "title": "🚨 ALERTA: Suas Criptos Estão em Risco!",
+      "approach": "Alerta de Segurança",
+      "slides_count": 5,
+      "image_files": [
+        "carousel_20260402_090754_slide_01.png",
+        "carousel_20260402_090754_slide_02.png",
+        "carousel_20260402_090754_slide_03.png",
+        "carousel_20260402_090754_slide_04.png",
+        "carousel_20260402_090754_slide_05.png"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "🔬 Como Computadores Quânticos Funcionam",
+      "approach": "Explicação Técnica",
+      "slides_count": 5,
+      "image_files": [
+        "carousel_20260402_090755_slide_01.png",
+        "carousel_20260402_090755_slide_02.png",
+        "carousel_20260402_090755_slide_03.png",
+        "carousel_20260402_090755_slide_04.png",
+        "carousel_20260402_090755_slide_05.png"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "₿ Bitcoin vs Computação Quântica",
+      "approach": "Impacto no Bitcoin",
+      "slides_count": 5,
+      "image_files": [
+        "carousel_20260402_090755_slide_01.png",
+        "carousel_20260402_090755_slide_02.png",
+        "carousel_20260402_090755_slide_03.png",
+        "carousel_20260402_090755_slide_04.png",
+        "carousel_20260402_090755_slide_05.png"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "🛡️ Nova Era da Criptografia",
+      "approach": "Soluções em Desenvolvimento",
+      "slides_count": 5,
+      "image_files": [
+        "carousel_20260402_090755_slide_01.png",
+        "carousel_20260402_090755_slide_02.png",
+        "carousel_20260402_090755_slide_03.png",
+        "carousel_20260402_090755_slide_04.png",
+        "carousel_20260402_090755_slide_05.png"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "⏰ 2029: O Prazo Final",
+      "approach": "Timeline e Preparação",
+      "slides_count": 5,
+      "image_files": [
+        "carousel_20260402_090755_slide_01.png",
+        "carousel_20260402_090755_slide_02.png",
+        "carousel_20260402_090755_slide_03.png",
+        "carousel_20260402_090755_slide_04.png",
+        "carousel_20260402_090755_slide_05.png"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "⚡ Quântico vs Clássico",
+      "approach": "Comparação Tecnológica",
+      "slides_count": 5,
+      "image_files": [
+        "carousel_20260402_090756_slide_01.png",
+        "carousel_20260402_090756_slide_02.png",
+        "carousel_20260402_090756_slide_03.png",
+        "carousel_20260402_090756_slide_04.png",
+        "carousel_20260402_090756_slide_05.png"
+      ]
+    },
+    {
+      "id": 7,
+      "title": "💰 Trilhões em Risco",
+      "approach": "Impacto Econômico",
+      "slides_count": 5,
+      "image_files": [
+        "carousel_20260402_090756_slide_01.png",
+        "carousel_20260402_090756_slide_02.png",
+        "carousel_20260402_090756_slide_03.png",
+        "carousel_20260402_090756_slide_04.png",
+        "carousel_20260402_090756_slide_05.png"
+      ]
+    },
+    {
+      "id": 8,
+      "title": "🔮 O Futuro da Segurança Digital",
+      "approach": "Futuro da Segurança Digital",
+      "slides_count": 5,
+      "image_files": [
+        "carousel_20260402_090756_slide_01.png",
+        "carousel_20260402_090756_slide_02.png",
+        "carousel_20260402_090756_slide_03.png",
+        "carousel_20260402_090756_slide_04.png",
+        "carousel_20260402_090756_slide_05.png"
+      ]
+    }
+  ]
+}

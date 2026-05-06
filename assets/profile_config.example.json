@@ -1,0 +1,16 @@
+{
+  "display_name": "Seu Nome",
+  "handle": "@seuhandle",
+  "initials": "SN",
+  "verified": true,
+  "tagline": "",
+  "colors": {
+    "background": "#FFFFFF",
+    "primary": "#1DA1F2",
+    "secondary": "#14171A",
+    "text_primary": "#14171A",
+    "text_secondary": "#657786",
+    "accent": "#1DA1F2",
+    "light_gray": "#F7F9FA"
+  }
+}

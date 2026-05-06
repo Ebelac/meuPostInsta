@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="content-card p-4 mb-4">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h1>
+                        <i class="fas fa-eye text-primary"></i>
+                        Conteúdo Gerado
+                    </h1>
+                    <p class="text-muted mb-0">{{ content.title or 'Carrossel Personalizado' }}</p>
+                </div>
+                <div class="col-auto">
+                    <a href="{{ url_for('generate_carousel') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-left"></i> Voltar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Informações do Carrossel -->
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-info-circle"></i> Informações
+                </h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Título:</strong><br>{{ content.title }}</p>
+
+                {% if content.description %}
+                <p><strong>Descrição:</strong><br>{{ content.description }}</p>
+                {% endif %}
+
+                <p><strong>Total de Slides:</strong> {{ content.slides|length }}</p>
+
+                <p><strong>Gerado em:</strong><br>{{ filename.split('_')[2][:8] }} às {{ filename.split('_')[3][:6] }}</p>
+
+                <div class="d-grid gap-2 mt-4">
+                    <button class="btn btn-success" onclick="generateVisualCarousel()">
+                        <i class="fas fa-magic"></i> Gerar Slides Visuais
+                    </button>
+
+                    <button class="btn btn-outline-primary" onclick="downloadJSON()">
+                        <i class="fas fa-download"></i> Baixar JSON
+                    </button>
+
+                    <button class="btn btn-outline-info" onclick="copyContent()">
+                        <i class="fas fa-copy"></i> Copiar Conteúdo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slides do Carrossel -->
+    <div class="col-md-8">
+        <div class="content-card p-4">
+            <h3 class="mb-4">
+                <i class="fas fa-images text-primary"></i>
+                Slides do Carrossel
+            </h3>
+
+            {% for slide in content.slides %}
+            <div class="card mb-3 slide-card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0">
+                        <span class="badge bg-primary">Slide {{ slide.slide_number }}</span>
+                        {{ slide.title or 'Slide ' + slide.slide_number|string }}
+                    </h6>
+
+                    <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-secondary" onclick="editSlide({{ slide.slide_number }})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-outline-info" onclick="previewSlide({{ slide.slide_number }})">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h6>📝 Conteúdo:</h6>
+                            <div class="slide-content">{{ slide.content }}</div>
+
+                            {% if slide.keywords %}
+                            <h6 class="mt-3">🏷️ Tags:</h6>
+                            <div>
+                                {% for keyword in slide.keywords %}
+                                <span class="badge bg-light text-dark me-1">{{ keyword }}</span>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-4">
+                            {% if slide.visual_description %}
+                            <h6>🎨 Visual:</h6>
+                            <p class="text-muted small">{{ slide.visual_description }}</p>
+                            {% endif %}
+
+                            <div class="visual-placeholder bg-light rounded p-3 text-center">
+                                <i class="fas fa-image fa-2x text-muted"></i>
+                                <p class="text-muted small mt-2 mb-0">Preview será gerado</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Modal para edição -->
+<div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Slide</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Título</label>
+                    <input type="text" class="form-control" id="editTitle">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Conteúdo</label>
+                    <textarea class="form-control" id="editContent" rows="4"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Descrição Visual</label>
+                    <textarea class="form-control" id="editVisual" rows="2"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="saveSlideEdit()">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let currentEditSlide = null;
+const contentData = {{ content|tojson }};
+
+function editSlide(slideNumber) {
+    const slide = contentData.slides.find(s => s.slide_number === slideNumber);
+    if (!slide) return;
+
+    currentEditSlide = slideNumber;
+    document.getElementById('editTitle').value = slide.title || '';
+    document.getElementById('editContent').value = slide.content || '';
+    document.getElementById('editVisual').value = slide.visual_description || '';
+
+    new bootstrap.Modal(document.getElementById('editModal')).show();
+}
+
+function saveSlideEdit() {
+    if (!currentEditSlide) return;
+
+    const slide = contentData.slides.find(s => s.slide_number === currentEditSlide);
+    if (!slide) return;
+
+    // Atualizar dados
+    slide.title = document.getElementById('editTitle').value;
+    slide.content = document.getElementById('editContent').value;
+    slide.visual_description = document.getElementById('editVisual').value;
+
+    // Atualizar UI
+    location.reload(); // Recarregar para mostrar mudanças
+
+    bootstrap.Modal.getInstance(document.getElementById('editModal')).hide();
+}
+
+function previewSlide(slideNumber) {
+    const slide = contentData.slides.find(s => s.slide_number === slideNumber);
+    if (!slide) return;
+
+    alert(`Preview do Slide ${slideNumber}\n\nTítulo: ${slide.title}\nConteúdo: ${slide.content}`);
+}
+
+function generateVisualCarousel() {
+    if (confirm('Deseja gerar os slides visuais? Isso pode levar alguns minutos.')) {
+        // TODO: Implementar geração visual
+        alert('Funcionalidade em desenvolvimento! Em breve você poderá gerar os slides visuais automaticamente.');
+    }
+}
+
+function downloadJSON() {
+    const dataStr = JSON.stringify(contentData, null, 2);
+    const dataBlob = new Blob([dataStr], {type: 'application/json'});
+
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(dataBlob);
+    link.download = `carousel_content_${Date.now()}.json`;
+    link.click();
+}
+
+function copyContent() {
+    let text = `${contentData.title}\n\n`;
+    contentData.slides.forEach(slide => {
+        text += `Slide ${slide.slide_number}: ${slide.title}\n${slide.content}\n\n`;
+    });
+
+    navigator.clipboard.writeText(text).then(() => {
+        alert('Conteúdo copiado para a área de transferência!');
+    });
+}
+</script>
+
+<style>
+.slide-card {
+    border-left: 4px solid #0d6efd;
+}
+
+.slide-content {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 3px solid #0d6efd;
+    white-space: pre-wrap;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.visual-placeholder {
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+</style>
+{% endblock %}

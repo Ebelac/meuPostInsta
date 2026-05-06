@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  # Redis para Celery
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  # Aplicação principal
+  app:
+    build: .
+    volumes:
+      - .:/app
+      - ./data:/app/data
+      - ./assets:/app/assets
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - DATABASE_URL=sqlite:///./data/instagram_automation.db
+    depends_on:
+      - redis
+    ports:
+      - "8501:8501"  # Dashboard
+    command: python main.py --mode dashboard
+
+  # Celery Worker
+  celery-worker:
+    build: .
+    volumes:
+      - .:/app
+      - ./data:/app/data
+      - ./assets:/app/assets
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - DATABASE_URL=sqlite:///./data/instagram_automation.db
+    depends_on:
+      - redis
+    command: celery -A src.scheduler.task_manager worker --loglevel=info
+
+  # Celery Beat (Scheduler)
+  celery-beat:
+    build: .
+    volumes:
+      - .:/app
+      - ./data:/app/data
+      - ./assets:/app/assets
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - DATABASE_URL=sqlite:///./data/instagram_automation.db
+    depends_on:
+      - redis
+    command: celery -A src.scheduler.task_manager beat --loglevel=info
+
+  # Flower (opcional - monitoramento Celery)
+  flower:
+    build: .
+    volumes:
+      - .:/app
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    ports:
+      - "5555:5555"
+    depends_on:
+      - redis
+    command: celery -A src.scheduler.task_manager flower
+
+volumes:
+  redis_data:

@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 generators/*.py)",
+      "Bash(python3 MODELO_PADRAO_CARROSSEL/*.py)",
+      "Bash(mkdir -p assets/*)",
+      "Bash(mkdir -p generators)",
+      "Bash(mkdir -p video_reels/public/*)",
+      "Bash(mkdir -p video_reels/src)",
+      "Bash(cp MODELO_PADRAO_CARROSSEL/template_gerador_final.py generators/*)",
+      "Bash(rm -f assets/slide_images/*.jpg)",
+      "Bash(sips *)",
+      "Bash(npm install)",
+      "Bash(npm run *)",
+      "Bash(npx remotion *)",
+      "Edit(.claude/skills/carousel/**)",
+      "Edit(.claude/skills/carousel-video/**)",
+      "Edit(generators/**)",
+      "Edit(assets/**)",
+      "Edit(video_reels/src/**)",
+      "Read(.claude/**)",
+      "WebFetch(domain:images.unsplash.com)",
+      "WebFetch(domain:images.pexels.com)",
+      "WebFetch(domain:upload.wikimedia.org)"
+    ]
+  }
+}

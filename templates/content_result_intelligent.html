@@ -1,0 +1,465 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="content-card p-4 mb-4">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h1>
+                        <i class="fas fa-brain text-success"></i>
+                        Conteúdo Inteligente Gerado!
+                    </h1>
+                    <p class="text-muted mb-1">Tema: <strong>{{ content.theme }}</strong></p>
+                    <p class="text-muted mb-0">
+                        <i class="fas fa-search text-primary"></i> Categoria: {{ content.category|title }} |
+                        <i class="fas fa-chart-line text-success"></i> Baseado em: {{ content.intelligence_level|replace('_', ' ')|title }}
+                    </p>
+                </div>
+                <div class="col-auto">
+                    <a href="{{ url_for('content_generator') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-plus"></i> Gerar Novo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Insights da Pesquisa -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-success">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-lightbulb"></i> Insights da Pesquisa
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h6>📊 Principais Descobertas:</h6>
+                        <ul class="list-unstyled">
+                            {% for insight in content.key_insights %}
+                            <li class="mb-2">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                {{ insight }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h6>🔍 Dados de Mercado:</h6>
+                        {% if content.research_summary.market_data %}
+                            {% for key, value in content.research_summary.market_data.items() %}
+                            <small class="d-block mb-1">
+                                <strong>{{ key|replace('_', ' ')|title }}:</strong> {{ value }}
+                            </small>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Manchete Inteligente -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-primary">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-newspaper"></i> Manchete Baseada em Dados
+                </h5>
+            </div>
+            <div class="card-body">
+                <h3 class="text-primary mb-3">{{ content.headline.main }}</h3>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>📈 Credibilidade:</h6>
+                        <span class="badge bg-success">{{ content.headline.credibility|title }}</span>
+                        <span class="badge bg-info">{{ content.headline.data_source }}</span>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>🔄 Alternativas:</h6>
+                        {% for alt in content.headline.alternatives %}
+                        <small class="text-muted d-block">• {{ alt }}</small>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Coluna Esquerda: Carrossel Inteligente -->
+    <div class="col-md-8 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-images text-primary"></i>
+                    Carrossel Inteligente ({{ content.carousel|length }} slides)
+                    <span class="badge bg-success ms-2">Baseado em Pesquisa</span>
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Conteúdo Inteligente:</strong> Cada slide foi criado baseado em dados reais de mercado e insights de especialistas.
+                </div>
+
+                <!-- Estrutura do Carrossel -->
+                <div class="accordion" id="carouselAccordion">
+                    {% for slide in content.carousel %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading{{ slide.slide_number }}">
+                            <button class="accordion-button {% if slide.slide_number != 1 %}collapsed{% endif %}"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapse{{ slide.slide_number }}"
+                                    aria-expanded="{% if slide.slide_number == 1 %}true{% else %}false{% endif %}">
+                                <span class="badge bg-primary me-2">{{ slide.slide_number }}</span>
+                                <strong>{{ slide.title }}</strong>
+                                <span class="badge bg-success ms-2">{{ slide.type|title }}</span>
+                                <i class="fas fa-chart-line ms-2 text-success" title="Baseado em dados"></i>
+                            </button>
+                        </h2>
+                        <div id="collapse{{ slide.slide_number }}"
+                             class="accordion-collapse collapse {% if slide.slide_number == 1 %}show{% endif %}"
+                             data-bs-parent="#carouselAccordion">
+                            <div class="accordion-body">
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <h6>💬 Conteúdo Inteligente:</h6>
+                                        <div class="bg-light p-3 rounded border-start border-success border-3">
+                                            {{ slide.content }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6>🧠 Insight Usado:</h6>
+                                        <small class="text-muted">{{ slide.insight_used }}</small>
+
+                                        {% if slide.slide_number <= 5 %}
+                                        <div class="mt-2">
+                                            <span class="badge bg-warning">Dados Reais</span>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Coluna Direita: Estratégia e Detalhes -->
+    <div class="col-md-4">
+        <!-- Descrição Inteligente -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h6 class="mb-0">
+                    <i class="fas fa-file-alt text-info"></i> Descrição Rica em Dados
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label"><strong>Versão Completa:</strong></label>
+                    <textarea class="form-control" rows="8" readonly id="description-full">{{ content.description.main_description }}</textarea>
+                    <button class="btn btn-outline-primary btn-sm mt-2" onclick="copyText('description-full')">
+                        <i class="fas fa-copy"></i> Copiar
+                    </button>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label"><strong>Versão Resumida:</strong></label>
+                    <textarea class="form-control" rows="3" readonly id="description-short">{{ content.description.short_version }}</textarea>
+                    <button class="btn btn-outline-primary btn-sm mt-2" onclick="copyText('description-short')">
+                        <i class="fas fa-copy"></i> Copiar
+                    </button>
+                </div>
+
+                <div class="alert alert-success">
+                    <i class="fas fa-check"></i>
+                    <strong>Conteúdo baseado em dados!</strong> Esta descrição inclui estatísticas reais de mercado.
+                </div>
+            </div>
+        </div>
+
+        <!-- Hashtags Trending -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h6 class="mb-0">
+                    <i class="fas fa-hashtag text-warning"></i>
+                    Hashtags Trending
+                    <span class="badge bg-warning">Baseadas em Tendências</span>
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label"><strong>Set Otimizado:</strong></label>
+                    <textarea class="form-control" rows="3" readonly id="hashtags-primary">{{ content.hashtags.formatted }}</textarea>
+                    <button class="btn btn-outline-primary btn-sm mt-2" onclick="copyText('hashtags-primary')">
+                        <i class="fas fa-copy"></i> Copiar
+                    </button>
+                </div>
+
+                <div class="alert alert-info small">
+                    <i class="fas fa-chart-line"></i>
+                    Tags selecionadas baseadas em trending topics e performance de mercado.
+                </div>
+            </div>
+        </div>
+
+        <!-- Timing Estratégico -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h6 class="mb-0">
+                    <i class="fas fa-clock text-danger"></i> Timing Estratégico
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-primary text-center">
+                    <h5 class="mb-1">⏰ {{ content.timing.next_optimal }}</h5>
+                    <small>Otimizado para categoria: {{ content.timing.strategy_used|title }}</small>
+                    <div class="mt-2">
+                        <small class="badge bg-info">
+                            Em {{ content.timing.hours_from_now }}h
+                        </small>
+                    </div>
+                </div>
+
+                <h6>📅 Estratégia:</h6>
+                <ul class="small">
+                    <li><strong>Melhores horários:</strong> {{ content.timing.recommendations.best_hours|join(', ') }}</li>
+                    <li><strong>Melhores dias:</strong> {{ content.timing.recommendations.best_days|join(', ') }}</li>
+                    <li><strong>Evitar:</strong> {{ content.timing.recommendations.avoid|join(', ') }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Estratégia de Conteúdo -->
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0">
+                    <i class="fas fa-strategy text-purple"></i> Estratégia de Conteúdo
+                </h6>
+            </div>
+            <div class="card-body">
+                <h6>🎯 Público-alvo:</h6>
+                <p class="small">{{ content.content_strategy.target_audience }}</p>
+
+                <h6>📈 Estratégia de Engajamento:</h6>
+                <p class="small">{{ content.content_strategy.engagement_strategy }}</p>
+
+                <h6>🔄 Próximos Conteúdos:</h6>
+                <ul class="small">
+                    {% for followup in content.content_strategy.follow_up_content %}
+                    <li>{{ followup }}</li>
+                    {% endfor %}
+                </ul>
+
+                <h6>🏛️ Pilares de Conteúdo:</h6>
+                <div>
+                    {% for pilar in content.content_strategy.content_pillars %}
+                    <span class="badge bg-secondary me-1">{{ pilar }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Dados de Pesquisa -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-database text-info"></i> Dados da Pesquisa Realizada
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h6>📈 Palavras-chave Trending:</h6>
+                        <div class="small">
+                            {% for keyword in content.research_summary.trending_keywords %}
+                            <span class="badge bg-light text-dark me-1 mb-1">{{ keyword }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <h6>📰 Desenvolvimentos Recentes:</h6>
+                        {% for news in content.research_summary.recent_news %}
+                        <small class="d-block mb-1">• {{ news }}</small>
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-4">
+                        <h6>👨‍💼 Opinião de Especialistas:</h6>
+                        {% for opinion in content.research_summary.expert_opinions %}
+                        <small class="d-block mb-1">• {{ opinion }}</small>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Botões de Ação -->
+<div class="row mt-4">
+    <div class="col-12 text-center">
+        <a href="{{ url_for('content_generator') }}" class="btn btn-success btn-lg me-3">
+            <i class="fas fa-brain"></i> Gerar Novo Conteúdo Inteligente
+        </a>
+        <button class="btn btn-primary btn-lg me-3" onclick="downloadIntelligentPackage()">
+            <i class="fas fa-download"></i> Baixar Pesquisa Completa
+        </button>
+        <button class="btn btn-outline-primary btn-lg" onclick="shareIntelligentContent()">
+            <i class="fas fa-share"></i> Compartilhar
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function copyText(elementId) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        element.select();
+        document.execCommand('copy');
+
+        // Feedback visual
+        const btn = element.parentNode.querySelector('button');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+        btn.className = btn.className.replace('btn-outline-primary', 'btn-success');
+
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.className = btn.className.replace('btn-success', 'btn-outline-primary');
+        }, 2000);
+    }
+}
+
+function downloadIntelligentPackage() {
+    const content = `CONTEÚDO INTELIGENTE - PESQUISA COMPLETA
+=============================================
+
+TEMA: {{ content.theme }}
+CATEGORIA: {{ content.category|title }}
+GERADO EM: {{ content.generated_at.split('T')[0] }} às {{ content.generated_at.split('T')[1].split('.')[0] }}
+
+INSIGHTS DA PESQUISA:
+{% for insight in content.key_insights %}
+• {{ insight }}
+{% endfor %}
+
+MANCHETE BASEADA EM DADOS:
+{{ content.headline.main }}
+
+DESCRIÇÃO RICA EM CONTEXTO:
+{{ content.description.main_description }}
+
+HASHTAGS TRENDING:
+{{ content.hashtags.formatted }}
+
+TIMING ESTRATÉGICO:
+{{ content.timing.next_optimal }} - Otimizado para {{ content.timing.strategy_used }}
+
+ESTRUTURA DO CARROSSEL:
+{% for slide in content.carousel %}
+Slide {{ slide.slide_number }}: {{ slide.title }}
+{{ slide.content }}
+[Baseado em: {{ slide.insight_used }}]
+
+{% endfor %}
+
+DADOS DE MERCADO:
+{% if content.research_summary.market_data %}
+{% for key, value in content.research_summary.market_data.items() %}
+• {{ key|replace('_', ' ')|title }}: {{ value }}
+{% endfor %}
+{% endif %}
+
+TENDÊNCIAS IDENTIFICADAS:
+{% for keyword in content.research_summary.trending_keywords %}
+• {{ keyword }}
+{% endfor %}
+
+ESTRATÉGIA DE CONTEÚDO:
+Público: {{ content.content_strategy.target_audience }}
+Engajamento: {{ content.content_strategy.engagement_strategy }}
+
+PRÓXIMOS CONTEÚDOS SUGERIDOS:
+{% for followup in content.content_strategy.follow_up_content %}
+• {{ followup }}
+{% endfor %}
+
+---
+Gerado por CalebeDigital Intelligent Content Generator`;
+
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `conteudo_inteligente_{{ content.generated_at.split('T')[0] }}.txt`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+}
+
+function shareIntelligentContent() {
+    if (navigator.share) {
+        navigator.share({
+            title: '🧠 {{ content.headline.main }}',
+            text: 'Conteúdo inteligente gerado baseado em pesquisa de mercado!',
+            url: window.location.href
+        });
+    } else {
+        navigator.clipboard.writeText(window.location.href);
+        alert('Link copiado para a área de transferência!');
+    }
+}
+
+// Configurar textareas para seleção fácil
+document.querySelectorAll('textarea[readonly]').forEach(textarea => {
+    textarea.addEventListener('click', function() {
+        this.select();
+    });
+});
+</script>
+
+<style>
+.text-purple {
+    color: #6f42c1 !important;
+}
+
+.border-3 {
+    border-width: 3px !important;
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+}
+
+textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
+}
+
+.badge {
+    font-size: 0.75em;
+}
+
+.card-header h6 {
+    margin-bottom: 0;
+}
+</style>
+{% endblock %}
