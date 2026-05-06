@@ -1,0 +1,6 @@
+# Dependências mínimas para usar as skills /carousel e /carousel-video.
+# Para o pipeline completo de automação (scraper, scheduler, etc),
+# instale o requirements.txt cheio.
+
+Pillow>=9.0.0
+requests>=2.28.0

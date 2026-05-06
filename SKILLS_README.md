@@ -7,17 +7,21 @@ Duas skills do Claude Code que automatizam o ciclo completo: pesquisa de tema �
 - `/carousel <tema>` — gera 9 slides 1080x1440 a partir de um tema (Pillow + Helvetica).
 - `/carousel-video <tema>` — converte o carrossel em um video Reels 1080x1920 com Remotion (Ken Burns, glitch cromatico, mask reveal, parallax 3D).
 
+## Pre-requisito
+
+[Claude Code](https://claude.com/claude-code) instalado — as skills `/carousel` e `/carousel-video` so rodam dentro dele.
+
 ## Setup rapido
 
 ```bash
 # 1. Clone
-git clone <este-repo> meu-instagram
-cd meu-instagram
+git clone https://github.com/Ebelac/meuPostInsta.git
+cd meuPostInsta
 
-# 2. Dependencias Python
-pip install -r requirements.txt
+# 2. Dependencias minimas (so o necessario pras skills: Pillow + requests)
+pip install -r requirements-minimal.txt
 
-# 3. Dependencias do Remotion
+# 3. (Opcional) Dependencias do Remotion (so se for usar /carousel-video)
 cd video_reels && npm install && cd ..
 
 # 4. Sua identidade visual
