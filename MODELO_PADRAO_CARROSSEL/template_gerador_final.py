@@ -381,18 +381,19 @@ class SingleCarouselGenerator(ProfessionalCarouselGenerator):
             9: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&w=500&h=300&fit=crop"   # People connecting/sharing
         }
 
-        # Tentar baixar a imagem (principal + fallback + ultra específica)
-        if slide_index in image_urls:
-            # Lista completa de URLs para tentar
-            urls_to_try = [
-                image_urls[slide_index],
-                fallback_urls.get(slide_index),
-                ultra_specific_urls.get(slide_index)
-            ]
+        # URLs PRINCIPAIS — PERSONALIZAR aqui as imagens tematicas do seu carrossel.
+        # Deixar vazio cai no fallback_urls/ultra_specific_urls automaticamente.
+        image_urls = {}
 
-            # Remover URLs None
-            urls_to_try = [url for url in urls_to_try if url]
+        # Lista completa de URLs para tentar (principal + fallback + ultra específica)
+        urls_to_try = [
+            image_urls.get(slide_index),
+            fallback_urls.get(slide_index),
+            ultra_specific_urls.get(slide_index)
+        ]
+        urls_to_try = [url for url in urls_to_try if url]
 
+        if urls_to_try:
             for url_index, url in enumerate(urls_to_try):
                 try:
                     source_names = ["principal", "alternativa", "ultra-específica"]
