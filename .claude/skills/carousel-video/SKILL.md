@@ -199,6 +199,31 @@ Validar typecheck antes do render:
 cd video_reels && npx tsc --noEmit
 ```
 
+## Passo 7 - Apresentacao final
+
+Apos o render, **sempre** apresentar o resultado pro usuario aqui no chat:
+
+**1. Mostrar caminho absoluto do MP4:**
+
+```
+Video: <abs>/video_reels/out/[tema].mp4
+```
+
+**2. Abrir a pasta automaticamente (cross-platform):**
+
+```bash
+python3 scripts/open_folder.py video_reels/out
+```
+
+Funciona em macOS (Finder), Windows (Explorer) e Linux (xdg-open). O usuario abre o video direto sem precisar achar a pasta.
+
+**3. Imprimir comando alternativo de preview rapido:**
+
+```
+Preview rapido (mac):  open video_reels/out/[tema].mp4
+                       (abre no QuickTime)
+```
+
 ## Componentes de referencia
 
 - `video_reels/src/PalantirManifesto.tsx` — sombrio, glitch, parallax 3D, dark theme

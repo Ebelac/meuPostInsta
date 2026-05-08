@@ -25,8 +25,12 @@ Se NAO existir, perguntar via `AskUserQuestion`:
 
 Criar `assets/profile_config.json` (estrutura: ver `assets/profile_config.example.json`) e **espelhar** em `video_reels/src/brand.json`.
 
-Se foto nao existir em `assets/profile/profile_photo.{png,jpg}`:
-> Coloque sua foto em `assets/profile/profile_photo.png` (recomendado 400x400). Sem foto, uso suas iniciais.
+Se foto nao existir em `assets/profile/profile_photo.{png,jpg}`, **perguntar via `AskUserQuestion`** se o usuario quer:
+- **Mandar agora**: usuario cola caminho local (ex: `/Users/voce/Downloads/foto.jpg`) ou URL. Drag-drop do Finder no chat tambem funciona — o caminho aparece como texto.
+  Rode `python3 scripts/setup_profile_photo.py "<caminho-ou-url>"` — ele faz crop quadrado 400x400 e salva no lugar certo.
+- **Pular**: uso as iniciais (do `profile_config.json`) como fallback.
+
+Nao pedir pra usuario "abrir o Finder e copiar manualmente" — esse atrito ja foi resolvido pelo helper.
 
 ---
 
@@ -270,17 +274,17 @@ Use a tool `Read` em cada um dos 9 PNGs gerados em `assets/generated_carousels/[
 
 NAO usar `>` de markdown. Texto puro, paragrafos com linha em branco entre, hashtags na ultima linha. Usuario copia direto pra caption do Instagram.
 
-**5. Mostrar caminhos absolutos + comando pra abrir a pasta:**
+**5. Mostrar caminhos absolutos:**
 
 ```
-Slides: /caminho/abs/assets/generated_carousels/[tema]_slide_01..09.png
-Contact sheet: /caminho/abs/assets/generated_carousels/[tema]_contact_sheet.png
-Post: /caminho/abs/assets/posts/[tema].md
-
-Abra a pasta: open assets/generated_carousels/   (macOS)
-                xdg-open assets/generated_carousels/   (Linux)
-                explorer assets\generated_carousels    (Windows)
+Slides:        <abs>/assets/generated_carousels/[tema]_slide_01..09.png
+Contact sheet: <abs>/assets/generated_carousels/[tema]_contact_sheet.png
+Post:          <abs>/assets/posts/[tema].md
 ```
+
+**6. Abrir a pasta automaticamente (cross-platform):**
+
+Roda `python3 scripts/open_folder.py assets/generated_carousels` — abre direto no Finder (macOS), Explorer (Windows) ou xdg-open (Linux). Sem o usuario precisar copiar comando.
 
 **Por que essa apresentacao final importa:** o usuario provavelmente esta no Claude Code/Desktop e quer baixar os PNGs pro celular OU pegar a descricao pra colar no Instagram. Sem essa etapa final, ele teria que ir manualmente no Finder achar a pasta — friccao desnecessaria.
 

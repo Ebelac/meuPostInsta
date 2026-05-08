@@ -3,6 +3,8 @@
     "allow": [
       "Bash(python3 generators/*.py)",
       "Bash(python3 MODELO_PADRAO_CARROSSEL/*.py)",
+      "Bash(python3 scripts/*.py)",
+      "Bash(python3 scripts/*.py *)",
       "Bash(mkdir -p assets/*)",
       "Bash(mkdir -p generators)",
       "Bash(mkdir -p video_reels/public/*)",
