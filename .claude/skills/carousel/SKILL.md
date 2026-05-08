@@ -246,6 +246,46 @@ Salvar em `assets/posts/[tema].md` respeitando o **tom** e o **nivel_escrita**:
 
 ---
 
+## Passo 8 — Apresentacao final (preview no chat + contact sheet)
+
+Ao final, **sempre** apresentar o resultado pro usuario aqui no chat. Ele provavelmente nao vai abrir os arquivos no Finder/explorer — entrega tudo pronto pra ele baixar/copiar.
+
+**1. Gerar contact sheet 3x3 dos 9 slides:**
+
+```bash
+python3 scripts/build_contact_sheet.py [tema]
+```
+
+Output: `assets/generated_carousels/[tema]_contact_sheet.png` — uma unica imagem 3x3 com os 9 slides em miniatura. Util pra revisar o carrossel inteiro de uma vez (e mandar pro celular pelo WhatsApp pra revisar antes de postar).
+
+**2. Mostrar os 9 slides inline no chat:**
+
+Use a tool `Read` em cada um dos 9 PNGs gerados em `assets/generated_carousels/[tema]_slide_01..09.png`. Eles renderizam visualmente no chat — usuario ve cada slide e pode salvar com clique direito ou drag & drop.
+
+**3. Mostrar o contact sheet inline tambem:**
+
+`Read` em `assets/generated_carousels/[tema]_contact_sheet.png` — preview compacto pra revisao geral.
+
+**4. Imprimir a descricao do post em texto LIMPO (sem blockquote):**
+
+NAO usar `>` de markdown. Texto puro, paragrafos com linha em branco entre, hashtags na ultima linha. Usuario copia direto pra caption do Instagram.
+
+**5. Mostrar caminhos absolutos + comando pra abrir a pasta:**
+
+```
+Slides: /caminho/abs/assets/generated_carousels/[tema]_slide_01..09.png
+Contact sheet: /caminho/abs/assets/generated_carousels/[tema]_contact_sheet.png
+Post: /caminho/abs/assets/posts/[tema].md
+
+Abra a pasta: open assets/generated_carousels/   (macOS)
+                xdg-open assets/generated_carousels/   (Linux)
+                explorer assets\generated_carousels    (Windows)
+```
+
+**Por que essa apresentacao final importa:** o usuario provavelmente esta no Claude Code/Desktop e quer baixar os PNGs pro celular OU pegar a descricao pra colar no Instagram. Sem essa etapa final, ele teria que ir manualmente no Finder achar a pasta — friccao desnecessaria.
+
+---
+
 ## Checklist final
 
 - [ ] `profile_config.json` + `video_reels/src/brand.json` sincronizados
@@ -259,6 +299,7 @@ Salvar em `assets/posts/[tema].md` respeitando o **tom** e o **nivel_escrita**:
 - [ ] Slide 9 com CTA dinamico (`{handle}`) e tagline (se houver)
 - [ ] Copy do post em `assets/posts/[tema].md` com **secao `## Fontes verificadas` listando URLs**
 - [ ] **5 principios do PADRAO presentes**: hook magnetico (slide 1), foreshadowing (slide 1), Mas/Entao em cada slide 2-8, linguagem de 5a serie em todos, satisfacao+surpresa no slide 9
+- [ ] **Passo 8 (apresentacao) executado**: contact sheet gerado + 9 slides + contact sheet exibidos inline via `Read` + descricao em texto limpo + caminhos absolutos impressos
 
 ---
 
